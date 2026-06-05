@@ -1,0 +1,17 @@
+# Backend
+backend/target/
+backend/src/main/resources/application.properties
+backend/.env
+
+# Frontend
+frontend/node_modules/
+frontend/dist/
+frontend/.env
+frontend/.env.*
+!frontend/.env.example
+
+# OS / Editor
+.DS_Store
+.idea/
+.vscode/
+*.iml

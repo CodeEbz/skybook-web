@@ -1,0 +1,15 @@
+target/
+*.class
+*.jar
+*.war
+
+src/main/resources/application.properties
+!src/main/resources/application.properties.example
+
+.env
+*.env
+
+.idea/
+*.iml
+.vscode/
+.DS_Store
