@@ -1,12 +1,12 @@
 # Copy this file to application.properties and fill in your values
-spring.datasource.url=${DB_URL:jdbc:mysql://localhost:3306/skybook_db}
-spring.datasource.username=${DB_USERNAME:root}
-spring.datasource.password=${DB_PASSWORD:}
-spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+spring.datasource.url=${DB_URL:jdbc:postgresql://localhost:5432/skybook_db}
+spring.datasource.username=${DB_USERNAME:postgres}
+spring.datasource.password=${DB_PASSWORD:postgres}
+spring.datasource.driver-class-name=org.postgresql.Driver
 
 spring.jpa.hibernate.ddl-auto=update
 spring.jpa.show-sql=false
-spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQLDialect
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
 
 jwt.secret=${JWT_SECRET:your-secret-key-min-32-characters-long}
 jwt.expiration=${JWT_EXPIRATION:86400000}
