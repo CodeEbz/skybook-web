@@ -7,7 +7,7 @@ primary_region = "iad"
 [env]
   PORT = "8080"
   SPRING_PROFILES_ACTIVE = "prod"
-  JAVA_TOOL_OPTIONS = "-XX:MaxRAMPercentage=60.0 -Xmx160m"
+  JAVA_TOOL_OPTIONS = "-XX:+UseSerialGC -XX:MaxRAMPercentage=70.0 -Xss512k"
 
 [http_service]
   internal_port = 8080
@@ -15,3 +15,9 @@ primary_region = "iad"
   auto_stop_machines = true
   auto_start_machines = true
   min_machines_running = 0
+
+[[http_service.checks]]
+  grace_period = "120s"
+  interval = "15s"
+  timeout = "5s"
+  type = "tcp"
