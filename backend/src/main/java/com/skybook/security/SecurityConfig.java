@@ -41,6 +41,7 @@ public class SecurityConfig {
                 .requestMatchers("/api/auth/**").permitAll()
                 .requestMatchers("/api/flights").permitAll()
                 .requestMatchers("/api/flights/origins", "/api/flights/destinations").permitAll()
+                .requestMatchers("/api/health").permitAll()
                 // Admin only endpoints
                 .requestMatchers("/api/admin/**").hasRole("ADMIN")
                 // Everything else requires a valid token
