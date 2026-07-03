@@ -649,3 +649,155 @@ a.link:hover { text-decoration: underline; }
     margin-right: 0.5rem;
   }
 }
+
+/* ── PREMIUM FLIGHT CARD ── */
+.mobile-flight-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.25s ease;
+  position: relative;
+  overflow: hidden;
+  text-align: left;
+}
+.mobile-flight-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-lg);
+  border-color: rgba(30, 55, 153, 0.20);
+}
+.mobile-flight-card .card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px dashed var(--border);
+  padding-bottom: 0.75rem;
+}
+.mobile-flight-card .flight-code {
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  letter-spacing: 0.03em;
+}
+.mobile-flight-card .card-route-timeline {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.25rem 0;
+}
+.mobile-flight-card .route-stop {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  flex: 1;
+}
+.mobile-flight-card .route-stop.text-right {
+  text-align: right;
+}
+.mobile-flight-card .airport-code {
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: var(--text);
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+.mobile-flight-card .airport-city {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--text-light);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.mobile-flight-card .timeline-connector {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 2;
+  position: relative;
+  padding: 0 0.5rem;
+}
+.mobile-flight-card .connector-line {
+  flex: 1;
+  height: 2px;
+  background: linear-gradient(90deg, var(--border) 0%, rgba(223, 230, 233, 0) 100%);
+}
+.mobile-flight-card .timeline-connector .connector-line:last-of-type {
+  background: linear-gradient(90deg, rgba(223, 230, 233, 0) 0%, var(--border) 100%);
+}
+.mobile-flight-card .connector-plane {
+  font-size: 1.1rem;
+  color: var(--primary-light);
+  transform: rotate(90deg);
+  margin: 0 0.25rem;
+  display: inline-block;
+  opacity: 0.85;
+}
+.mobile-flight-card .card-details-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+  background: #f8fafc;
+  padding: 0.85rem 1rem;
+  border-radius: 12px;
+  border: 1px solid rgba(223, 230, 233, 0.5);
+}
+.mobile-flight-card .detail-pill {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+.mobile-flight-card .pill-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--text-light);
+  letter-spacing: 0.05em;
+}
+.mobile-flight-card .pill-value {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text);
+}
+.mobile-flight-card .card-footer-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 0.25rem;
+  gap: 1rem;
+}
+.mobile-flight-card .price-tag {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  text-align: left;
+}
+.mobile-flight-card .price-label {
+  font-size: 0.75rem;
+  color: var(--text-light);
+  font-weight: 500;
+}
+.mobile-flight-card .price-value {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: var(--success);
+  letter-spacing: -0.01em;
+}
+.mobile-flight-card .book-btn {
+  width: 50% !important;
+  padding: 0.7rem 1.25rem;
+  font-size: 0.9rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(30, 55, 153, 0.15);
+}
+.mobile-flight-card .book-btn:hover {
+  box-shadow: 0 6px 16px rgba(30, 55, 153, 0.25);
+}
+

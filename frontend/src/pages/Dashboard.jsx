@@ -4,6 +4,15 @@ import Navbar from '../components/Navbar';
 import { getFlights, getOrigins, getDestinations } from '../api';
 
 export default function Dashboard() {
+  const parseLocation = (locStr) => {
+    if (!locStr) return { city: '', code: '' };
+    const match = locStr.match(/^(.*?)\s*\((.*?)\)$/);
+    if (match) {
+      return { city: match[1].trim(), code: match[2].trim() };
+    }
+    return { city: locStr, code: locStr.substring(0, 3).toUpperCase() };
+  };
+
   const [flights, setFlights] = useState([]);
   const [filtered, setFiltered] = useState([]);
   const [origins, setOrigins] = useState([]);
@@ -143,44 +152,63 @@ export default function Dashboard() {
               No flights found matching your search.
             </div>
           ) : (
-            filtered.map(f => (
-              <div key={f.id} className="mobile-card">
-                <div className="mobile-card-row">
-                  <span className="flight-number">{f.flightNumber}</span>
-                  <span className={`badge badge-${f.flightType?.toLowerCase()}`}>{f.flightType}</span>
-                </div>
-                <div className="mobile-card-row">
-                  <div className="mobile-card-route">
-                    <span>{f.origin}</span>
-                    <span className="mobile-card-route-arrow">→</span>
-                    <span>{f.destination}</span>
+            filtered.map(f => {
+              const originInfo = parseLocation(f.origin);
+              const destInfo = parseLocation(f.destination);
+              return (
+                <div key={f.id} className="mobile-flight-card">
+                  <div className="card-header">
+                    <span className="flight-code">✈️ {f.flightNumber}</span>
+                    <span className={`badge badge-${f.flightType?.toLowerCase()}`}>{f.flightType}</span>
                   </div>
-                  <span className="fare-text" style={{ fontSize: '1.25rem' }}>
-                    ₦{f.fare?.toLocaleString()}
-                  </span>
-                </div>
-                <div className="mobile-card-details">
-                  <div className="mobile-card-detail-item">
-                    <span className="mobile-card-label">Departure</span>
-                    <span className="mobile-card-value">{f.departureTime?.substring(0, 16).replace('T', ' ')}</span>
+                  
+                  <div className="card-route-timeline">
+                    <div className="route-stop">
+                      <span className="airport-code">{originInfo.code}</span>
+                      <span className="airport-city">{originInfo.city}</span>
+                    </div>
+                    
+                    <div className="timeline-connector">
+                      <div className="connector-line"></div>
+                      <span className="connector-plane">✈️</span>
+                      <div className="connector-line"></div>
+                    </div>
+
+                    <div className="route-stop text-right">
+                      <span className="airport-code">{destInfo.code}</span>
+                      <span className="airport-city">{destInfo.city}</span>
+                    </div>
                   </div>
-                  <div className="mobile-card-detail-item">
-                    <span className="mobile-card-label">Available Seats</span>
-                    <span className="mobile-card-value" style={{ color: f.availableSeats === 0 ? 'var(--danger)' : 'var(--success)' }}>
-                      {f.availableSeats}
-                    </span>
+
+                  <div className="card-details-row">
+                    <div className="detail-pill">
+                      <span className="pill-label">Departure</span>
+                      <span className="pill-value">{f.departureTime?.substring(0, 16).replace('T', ' ')}</span>
+                    </div>
+                    <div className="detail-pill">
+                      <span className="pill-label">Available Seats</span>
+                      <span className="pill-value" style={{ color: f.availableSeats === 0 ? 'var(--danger)' : 'var(--success)' }}>
+                        {f.availableSeats}
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="card-footer-row">
+                    <div className="price-tag">
+                      <span className="price-label">Price from</span>
+                      <span className="price-value">₦{f.fare?.toLocaleString()}</span>
+                    </div>
+                    <button 
+                      className="btn btn-primary book-btn"
+                      disabled={f.availableSeats === 0} 
+                      onClick={() => handleBook(f)}
+                    >
+                      {f.availableSeats === 0 ? 'Sold Out' : 'Book Now'}
+                    </button>
                   </div>
                 </div>
-                <button 
-                  className="btn btn-primary" 
-                  style={{ width: '100%', marginTop: '0.25rem' }}
-                  disabled={f.availableSeats === 0} 
-                  onClick={() => handleBook(f)}
-                >
-                  {f.availableSeats === 0 ? 'Sold Out' : 'Book Now'}
-                </button>
-              </div>
-            ))
+              );
+            })
           )}
         </div>
       </div>

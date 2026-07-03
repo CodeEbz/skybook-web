@@ -3,6 +3,15 @@ import Navbar from '../components/Navbar';
 import { getFlights, addFlight, deleteFlight, getAllBookings, getAllUsers } from '../api';
 
 export default function Admin() {
+  const parseLocation = (locStr) => {
+    if (!locStr) return { city: '', code: '' };
+    const match = locStr.match(/^(.*?)\s*\((.*?)\)$/);
+    if (match) {
+      return { city: match[1].trim(), code: match[2].trim() };
+    }
+    return { city: locStr, code: locStr.substring(0, 3).toUpperCase() };
+  };
+
   const [tab, setTab] = useState('flights');
   const [flights, setFlights] = useState([]);
   const [bookings, setBookings] = useState([]);
@@ -115,35 +124,57 @@ export default function Admin() {
               {flights.length === 0 ? (
                 <div className="card" style={{ textAlign: 'center', color: 'var(--text-light)', padding: '2rem' }}>No flights found.</div>
               ) : (
-                flights.map(f => (
-                  <div key={f.id} className="mobile-card">
-                    <div className="mobile-card-row">
-                      <span className="flight-number">{f.flightNumber}</span>
-                      <span className={`badge badge-${f.flightType?.toLowerCase()}`}>{f.flightType}</span>
-                    </div>
-                    <div className="mobile-card-row">
-                      <div className="mobile-card-route">
-                        <span>{f.origin}</span>
-                        <span className="mobile-card-route-arrow">→</span>
-                        <span>{f.destination}</span>
+                flights.map(f => {
+                  const originInfo = parseLocation(f.origin);
+                  const destInfo = parseLocation(f.destination);
+                  return (
+                    <div key={f.id} className="mobile-flight-card">
+                      <div className="card-header">
+                        <span className="flight-code">✈️ {f.flightNumber}</span>
+                        <span className={`badge badge-${f.flightType?.toLowerCase()}`}>{f.flightType}</span>
                       </div>
-                      <span className="fare-text" style={{ fontSize: '1.25rem' }}>₦{f.fare?.toLocaleString()}</span>
-                    </div>
-                    <div className="mobile-card-details">
-                      <div className="mobile-card-detail-item">
-                        <span className="mobile-card-label">Departure</span>
-                        <span className="mobile-card-value">{f.departureTime?.substring(0, 16).replace('T', ' ')}</span>
+                      
+                      <div className="card-route-timeline">
+                        <div className="route-stop">
+                          <span className="airport-code">{originInfo.code}</span>
+                          <span className="airport-city">{originInfo.city}</span>
+                        </div>
+                        
+                        <div className="timeline-connector">
+                          <div className="connector-line"></div>
+                          <span className="connector-plane">✈️</span>
+                          <div className="connector-line"></div>
+                        </div>
+
+                        <div className="route-stop text-right">
+                          <span className="airport-code">{destInfo.code}</span>
+                          <span className="airport-city">{destInfo.city}</span>
+                        </div>
                       </div>
-                      <div className="mobile-card-detail-item">
-                        <span className="mobile-card-label">Total Seats</span>
-                        <span className="mobile-card-value">{f.availableSeats}</span>
+
+                      <div className="card-details-row">
+                        <div className="detail-pill">
+                          <span className="pill-label">Departure</span>
+                          <span className="pill-value">{f.departureTime?.substring(0, 16).replace('T', ' ')}</span>
+                        </div>
+                        <div className="detail-pill">
+                          <span className="pill-label">Total Seats</span>
+                          <span className="pill-value">{f.availableSeats}</span>
+                        </div>
+                      </div>
+
+                      <div className="card-footer-row">
+                        <div className="price-tag">
+                          <span className="price-label">Fare</span>
+                          <span className="price-value">₦{f.fare?.toLocaleString()}</span>
+                        </div>
+                        <button className="btn btn-danger book-btn" onClick={() => handleDelete(f.id)}>
+                          Delete Flight
+                        </button>
                       </div>
                     </div>
-                    <button className="btn btn-danger" style={{ width: '100%', marginTop: '0.25rem' }} onClick={() => handleDelete(f.id)}>
-                      Delete Flight
-                    </button>
-                  </div>
-                ))
+                  );
+                })
               )}
             </div>
           </>
