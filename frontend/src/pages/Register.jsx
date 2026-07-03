@@ -60,7 +60,7 @@ export default function Register() {
               <label>Email Address</label>
               <input type="email" placeholder="you@example.com" value={form.email} onChange={e => setForm({...form, email: e.target.value})} required />
             </div>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+            <div className="responsive-form-grid">
               <div className="form-group">
                 <label>Phone Number</label>
                 <input placeholder="+234..." value={form.phoneNumber} onChange={e => setForm({...form, phoneNumber: e.target.value})} required />

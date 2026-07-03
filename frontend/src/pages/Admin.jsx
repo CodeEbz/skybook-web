@@ -91,7 +91,7 @@ export default function Admin() {
               </form>
             </div>
 
-            <div className="table-container">
+            <div className="table-container desktop-view">
               <table>
                 <thead><tr><th>Flight</th><th>Route</th><th>Departure</th><th>Fare</th><th>Seats</th><th>Type</th><th>Action</th></tr></thead>
                 <tbody>
@@ -109,45 +109,154 @@ export default function Admin() {
                 </tbody>
               </table>
             </div>
+
+            {/* Mobile Flights list */}
+            <div className="mobile-cards-list mobile-view">
+              {flights.length === 0 ? (
+                <div className="card" style={{ textAlign: 'center', color: 'var(--text-light)', padding: '2rem' }}>No flights found.</div>
+              ) : (
+                flights.map(f => (
+                  <div key={f.id} className="mobile-card">
+                    <div className="mobile-card-row">
+                      <span className="flight-number">{f.flightNumber}</span>
+                      <span className={`badge badge-${f.flightType?.toLowerCase()}`}>{f.flightType}</span>
+                    </div>
+                    <div className="mobile-card-row">
+                      <div className="mobile-card-route">
+                        <span>{f.origin}</span>
+                        <span className="mobile-card-route-arrow">→</span>
+                        <span>{f.destination}</span>
+                      </div>
+                      <span className="fare-text" style={{ fontSize: '1.25rem' }}>₦{f.fare?.toLocaleString()}</span>
+                    </div>
+                    <div className="mobile-card-details">
+                      <div className="mobile-card-detail-item">
+                        <span className="mobile-card-label">Departure</span>
+                        <span className="mobile-card-value">{f.departureTime?.substring(0, 16).replace('T', ' ')}</span>
+                      </div>
+                      <div className="mobile-card-detail-item">
+                        <span className="mobile-card-label">Total Seats</span>
+                        <span className="mobile-card-value">{f.availableSeats}</span>
+                      </div>
+                    </div>
+                    <button className="btn btn-danger" style={{ width: '100%', marginTop: '0.25rem' }} onClick={() => handleDelete(f.id)}>
+                      Delete Flight
+                    </button>
+                  </div>
+                ))
+              )}
+            </div>
           </>
         )}
 
         {tab === 'bookings' && (
-          <div className="table-container">
-            <table>
-              <thead><tr><th>ID</th><th>Passenger ID</th><th>Flight ID</th><th>Seat</th><th>Class</th><th>Booked On</th><th>Status</th></tr></thead>
-              <tbody>
-                {bookings.map(b => (
-                  <tr key={b.id}>
-                    <td><span className="flight-number">#{b.id}</span></td>
-                    <td>{b.passengerId}</td><td>{b.flightId}</td>
-                    <td style={{ fontWeight: 600 }}>{b.seatNumber}</td><td>{b.seatClass}</td>
-                    <td style={{ color: 'var(--text-light)' }}>{b.bookingTime?.substring(0, 16).replace('T', ' ')}</td>
-                    <td><span className={`badge badge-${b.status?.toLowerCase()}`}>{b.status}</span></td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+          <>
+            <div className="table-container desktop-view">
+              <table>
+                <thead><tr><th>ID</th><th>Passenger ID</th><th>Flight ID</th><th>Seat</th><th>Class</th><th>Booked On</th><th>Status</th></tr></thead>
+                <tbody>
+                  {bookings.map(b => (
+                    <tr key={b.id}>
+                      <td><span className="flight-number">#{b.id}</span></td>
+                      <td>{b.passengerId}</td><td>{b.flightId}</td>
+                      <td style={{ fontWeight: 600 }}>{b.seatNumber}</td><td>{b.seatClass}</td>
+                      <td style={{ color: 'var(--text-light)' }}>{b.bookingTime?.substring(0, 16).replace('T', ' ')}</td>
+                      <td><span className={`badge badge-${b.status?.toLowerCase()}`}>{b.status}</span></td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            {/* Mobile Bookings list */}
+            <div className="mobile-cards-list mobile-view">
+              {bookings.length === 0 ? (
+                <div className="card" style={{ textAlign: 'center', color: 'var(--text-light)', padding: '2rem' }}>No bookings found.</div>
+              ) : (
+                bookings.map(b => (
+                  <div key={b.id} className="mobile-card">
+                    <div className="mobile-card-row">
+                      <span className="flight-number">Booking #{b.id}</span>
+                      <span className={`badge badge-${b.status?.toLowerCase()}`}>{b.status}</span>
+                    </div>
+                    <div className="mobile-card-details">
+                      <div className="mobile-card-detail-item">
+                        <span className="mobile-card-label">Passenger ID</span>
+                        <span className="mobile-card-value">#{b.passengerId}</span>
+                      </div>
+                      <div className="mobile-card-detail-item">
+                        <span className="mobile-card-label">Flight ID</span>
+                        <span className="mobile-card-value">#{b.flightId}</span>
+                      </div>
+                      <div className="mobile-card-detail-item">
+                        <span className="mobile-card-label">Seat</span>
+                        <span className="mobile-card-value">{b.seatNumber}</span>
+                      </div>
+                      <div className="mobile-card-detail-item">
+                        <span className="mobile-card-label">Class</span>
+                        <span className="mobile-card-value">{b.seatClass}</span>
+                      </div>
+                      <div className="mobile-card-detail-item" style={{ gridColumn: 'span 2' }}>
+                        <span className="mobile-card-label">Booked On</span>
+                        <span className="mobile-card-value">{b.bookingTime?.substring(0, 16).replace('T', ' ')}</span>
+                      </div>
+                    </div>
+                  </div>
+                ))
+              )}
+            </div>
+          </>
         )}
 
         {tab === 'users' && (
-          <div className="table-container">
-            <table>
-              <thead><tr><th>ID</th><th>Name</th><th>Email</th><th>Phone</th><th>Role</th></tr></thead>
-              <tbody>
-                {users.map(u => (
-                  <tr key={u.id}>
-                    <td>{u.id}</td>
-                    <td style={{ fontWeight: 600 }}>{u.name}</td>
-                    <td style={{ color: 'var(--text-light)' }}>{u.email}</td>
-                    <td>{u.phoneNumber}</td>
-                    <td><span className={`badge badge-${u.role?.toLowerCase()}`}>{u.role}</span></td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+          <>
+            <div className="table-container desktop-view">
+              <table>
+                <thead><tr><th>ID</th><th>Name</th><th>Email</th><th>Phone</th><th>Role</th></tr></thead>
+                <tbody>
+                  {users.map(u => (
+                    <tr key={u.id}>
+                      <td>{u.id}</td>
+                      <td style={{ fontWeight: 600 }}>{u.name}</td>
+                      <td style={{ color: 'var(--text-light)' }}>{u.email}</td>
+                      <td>{u.phoneNumber}</td>
+                      <td><span className={`badge badge-${u.role?.toLowerCase()}`}>{u.role}</span></td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            {/* Mobile Users list */}
+            <div className="mobile-cards-list mobile-view">
+              {users.length === 0 ? (
+                <div className="card" style={{ textAlign: 'center', color: 'var(--text-light)', padding: '2rem' }}>No users registered.</div>
+              ) : (
+                users.map(u => (
+                  <div key={u.id} className="mobile-card">
+                    <div className="mobile-card-row">
+                      <span style={{ fontWeight: 700, color: 'var(--primary)' }}>Passenger #{u.id}</span>
+                      <span className={`badge badge-${u.role?.toLowerCase()}`}>{u.role}</span>
+                    </div>
+                    <div className="mobile-card-details">
+                      <div className="mobile-card-detail-item" style={{ gridColumn: 'span 2' }}>
+                        <span className="mobile-card-label">Name</span>
+                        <span className="mobile-card-value">{u.name}</span>
+                      </div>
+                      <div className="mobile-card-detail-item" style={{ gridColumn: 'span 2' }}>
+                        <span className="mobile-card-label">Email</span>
+                        <span className="mobile-card-value" style={{ wordBreak: 'break-all' }}>{u.email}</span>
+                      </div>
+                      <div className="mobile-card-detail-item" style={{ gridColumn: 'span 2' }}>
+                        <span className="mobile-card-label">Phone</span>
+                        <span className="mobile-card-value">{u.phoneNumber}</span>
+                      </div>
+                    </div>
+                  </div>
+                ))
+              )}
+            </div>
+          </>
         )}
       </div>
     </div>

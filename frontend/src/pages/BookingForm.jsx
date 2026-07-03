@@ -50,24 +50,20 @@ export default function BookingForm() {
         </div>
 
         {/* Flight summary banner */}
-        <div style={{
-          background: 'linear-gradient(135deg, var(--primary), var(--primary-light))',
-          borderRadius: '14px', padding: '1.5rem 2rem', marginBottom: '1.5rem',
-          display: 'flex', gap: '2.5rem', flexWrap: 'wrap', color: 'white'
-        }}>
-          <div>
+        <div className="flight-summary-banner">
+          <div className="banner-item">
             <div style={{ fontSize: '0.75rem', opacity: 0.8, fontWeight: 600, textTransform: 'uppercase' }}>Flight</div>
             <div style={{ fontSize: '1.3rem', fontWeight: 800 }}>{flight.flightNumber}</div>
           </div>
-          <div>
+          <div className="banner-item">
             <div style={{ fontSize: '0.75rem', opacity: 0.8, fontWeight: 600, textTransform: 'uppercase' }}>Route</div>
             <div style={{ fontSize: '1.1rem', fontWeight: 700 }}>{flight.origin} → {flight.destination}</div>
           </div>
-          <div>
+          <div className="banner-item">
             <div style={{ fontSize: '0.75rem', opacity: 0.8, fontWeight: 600, textTransform: 'uppercase' }}>Departure</div>
             <div style={{ fontWeight: 600 }}>{flight.departureTime?.substring(0, 16).replace('T', ' ')}</div>
           </div>
-          <div style={{ marginLeft: 'auto' }}>
+          <div className="banner-fare">
             <div style={{ fontSize: '0.75rem', opacity: 0.8, fontWeight: 600, textTransform: 'uppercase' }}>Total Fare</div>
             <div style={{ fontSize: '1.5rem', fontWeight: 800 }}>₦{flight.fare?.toLocaleString()}</div>
           </div>
@@ -76,7 +72,7 @@ export default function BookingForm() {
         <form onSubmit={handleSubmit}>
           {error && <div className="alert alert-error">⚠️ {error}</div>}
 
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
+          <div className="booking-grid">
             {/* Seat selection */}
             <div className="card">
               <h3 style={{ fontWeight: 700, marginBottom: '1rem' }}>Select Your Seat</h3>
@@ -127,7 +123,7 @@ export default function BookingForm() {
                 <input placeholder="1234 5678 9012 3456" maxLength={16}
                   value={card.cardNumber} onChange={e => setCard({...card, cardNumber: e.target.value.replace(/\D/g, '')})} required />
               </div>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+              <div className="responsive-form-grid">
                 <div className="form-group">
                   <label>Expiry Date</label>
                   <input placeholder="MM/YY" value={card.expiry} onChange={e => setCard({...card, expiry: e.target.value})} required />

@@ -55,7 +55,7 @@ export default function CheckIn() {
           {booking && (
             <div style={{ marginTop: '1.5rem', padding: '1.25rem', background: 'var(--bg)', borderRadius: '12px', border: '1px solid var(--border)' }}>
               <h3 style={{ color: 'var(--primary)', marginBottom: '1rem', fontWeight: 700 }}>Booking Details</h3>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginBottom: '1rem' }}>
+              <div className="responsive-form-grid" style={{ marginBottom: '1rem' }}>
                 <div>
                   <div style={{ fontSize: '0.75rem', color: 'var(--text-light)', fontWeight: 600, textTransform: 'uppercase' }}>Flight</div>
                   <div style={{ fontWeight: 700, color: 'var(--primary)' }}>{booking.flightNumber}</div>

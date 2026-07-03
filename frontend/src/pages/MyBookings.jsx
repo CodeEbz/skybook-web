@@ -39,7 +39,7 @@ export default function MyBookings() {
           <div className="stat-card danger"><div className="stat-label">Cancelled</div><div className="stat-value">{cancelled}</div></div>
         </div>
 
-        <div className="table-container">
+        <div className="table-container desktop-view">
           <table>
             <thead>
               <tr><th>Booking ID</th><th>Flight ID</th><th>Seat</th><th>Class</th><th>Booked On</th><th>Status</th><th>Action</th></tr>
@@ -66,6 +66,51 @@ export default function MyBookings() {
               ))}
             </tbody>
           </table>
+        </div>
+
+        {/* Mobile bookings cards list */}
+        <div className="mobile-cards-list mobile-view">
+          {bookings.length === 0 ? (
+            <div className="card" style={{ textAlign: 'center', color: 'var(--text-light)', padding: '2rem' }}>
+              No bookings yet. <a href="/dashboard" className="link">Book a flight →</a>
+            </div>
+          ) : (
+            bookings.map(b => (
+              <div key={b.id} className="mobile-card">
+                <div className="mobile-card-row">
+                  <span className="flight-number">Booking #{b.id}</span>
+                  <span className={`badge badge-${b.status?.toLowerCase()}`}>{b.status}</span>
+                </div>
+                <div className="mobile-card-details">
+                  <div className="mobile-card-detail-item">
+                    <span className="mobile-card-label">Flight ID</span>
+                    <span className="mobile-card-value">{b.flightId}</span>
+                  </div>
+                  <div className="mobile-card-detail-item">
+                    <span className="mobile-card-label">Seat</span>
+                    <span className="mobile-card-value">{b.seatNumber}</span>
+                  </div>
+                  <div className="mobile-card-detail-item">
+                    <span className="mobile-card-label">Class</span>
+                    <span className="mobile-card-value">{b.seatClass}</span>
+                  </div>
+                  <div className="mobile-card-detail-item">
+                    <span className="mobile-card-label">Booked On</span>
+                    <span className="mobile-card-value">{b.bookingTime?.substring(0, 16).replace('T', ' ')}</span>
+                  </div>
+                </div>
+                {b.status === 'CONFIRMED' && (
+                  <button 
+                    className="btn btn-danger btn-sm" 
+                    style={{ width: '100%', marginTop: '0.25rem' }} 
+                    onClick={() => handleCancel(b.id)}
+                  >
+                    Cancel Booking
+                  </button>
+                )}
+              </div>
+            ))
+          )}
         </div>
       </div>
     </div>

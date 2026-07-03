@@ -95,7 +95,7 @@ export default function Dashboard() {
           </div>
         </div>
 
-        <div className="table-container">
+        <div className="table-container desktop-view">
           <table>
             <thead>
               <tr>
@@ -134,6 +134,54 @@ export default function Dashboard() {
               ))}
             </tbody>
           </table>
+        </div>
+
+        {/* Mobile flight cards list */}
+        <div className="mobile-cards-list mobile-view">
+          {filtered.length === 0 ? (
+            <div className="card" style={{ textAlign: 'center', color: 'var(--text-light)', padding: '2rem' }}>
+              No flights found matching your search.
+            </div>
+          ) : (
+            filtered.map(f => (
+              <div key={f.id} className="mobile-card">
+                <div className="mobile-card-row">
+                  <span className="flight-number">{f.flightNumber}</span>
+                  <span className={`badge badge-${f.flightType?.toLowerCase()}`}>{f.flightType}</span>
+                </div>
+                <div className="mobile-card-row">
+                  <div className="mobile-card-route">
+                    <span>{f.origin}</span>
+                    <span className="mobile-card-route-arrow">→</span>
+                    <span>{f.destination}</span>
+                  </div>
+                  <span className="fare-text" style={{ fontSize: '1.25rem' }}>
+                    ₦{f.fare?.toLocaleString()}
+                  </span>
+                </div>
+                <div className="mobile-card-details">
+                  <div className="mobile-card-detail-item">
+                    <span className="mobile-card-label">Departure</span>
+                    <span className="mobile-card-value">{f.departureTime?.substring(0, 16).replace('T', ' ')}</span>
+                  </div>
+                  <div className="mobile-card-detail-item">
+                    <span className="mobile-card-label">Available Seats</span>
+                    <span className="mobile-card-value" style={{ color: f.availableSeats === 0 ? 'var(--danger)' : 'var(--success)' }}>
+                      {f.availableSeats}
+                    </span>
+                  </div>
+                </div>
+                <button 
+                  className="btn btn-primary" 
+                  style={{ width: '100%', marginTop: '0.25rem' }}
+                  disabled={f.availableSeats === 0} 
+                  onClick={() => handleBook(f)}
+                >
+                  {f.availableSeats === 0 ? 'Sold Out' : 'Book Now'}
+                </button>
+              </div>
+            ))
+          )}
         </div>
       </div>
     </div>

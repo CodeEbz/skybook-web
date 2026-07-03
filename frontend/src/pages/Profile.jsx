@@ -45,7 +45,7 @@ export default function Profile() {
           {success && <div className="alert alert-success">✅ {success}</div>}
 
           <form onSubmit={handleSubmit}>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+            <div className="responsive-form-grid">
               <div className="form-group">
                 <label>Full Name</label>
                 <input value={form.name || ''} onChange={e => setForm({...form, name: e.target.value})} />
