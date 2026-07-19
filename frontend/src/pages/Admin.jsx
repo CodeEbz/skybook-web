@@ -76,7 +76,7 @@ export default function Admin() {
               {error && <div className="alert alert-error">⚠️ {error}</div>}
               {success && <div className="alert alert-success">{success}</div>}
               <form onSubmit={handleAddFlight}>
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))', gap: '1rem' }}>
+                <div className="admin-flight-form" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))', gap: '1rem' }}>
                   {[['flightNumber','Flight Number','e.g. SB201'],['origin','Origin','e.g. Lagos'],['destination','Destination','e.g. London'],['fare','Fare (₦)','e.g. 500'],['availableSeats','Total Seats','e.g. 200']].map(([f, l, p]) => (
                     <div className="form-group" key={f} style={{ margin: 0 }}>
                       <label>{l}</label>

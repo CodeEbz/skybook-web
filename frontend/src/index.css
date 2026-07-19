@@ -347,11 +347,11 @@ tbody tr:last-child td { border-bottom: none; }
 .badge-passenger { background: #f0fdf4; color: #166534; border: 1px solid #bbf7d0; }
 
 /* ── TABS ── */
-.tabs { display: flex; gap: 0.25rem; margin-bottom: 1.5rem; background: var(--white); padding: 0.35rem; border-radius: 12px; border: 1px solid var(--border); width: fit-content; box-shadow: var(--shadow); }
+.tabs { display: flex; gap: 0.25rem; margin-bottom: 1.5rem; background: var(--white); padding: 0.35rem; border-radius: 12px; border: 1px solid var(--border); width: fit-content; max-width: 100%; box-shadow: var(--shadow); overflow-x: auto; }
 .tab-btn {
   padding: 0.6rem 1.5rem; background: none; border: none;
   color: var(--text-light); cursor: pointer; font-size: 0.9rem; font-weight: 600;
-  border-radius: 9px; transition: all 0.2s; font-family: inherit;
+  border-radius: 9px; transition: all 0.2s; font-family: inherit; white-space: nowrap;
 }
 .tab-btn.active { background: var(--primary); color: white; box-shadow: 0 2px 8px rgba(30,55,153,0.25); }
 
@@ -532,6 +532,27 @@ a.link:hover { text-decoration: underline; }
   .auth-hero { display: none; }
   .content { padding: 1.25rem; }
   .navbar { padding: 0 1.25rem; position: relative; }
+
+  /* Page header font size */
+  .page-header h1 { font-size: 1.35rem; }
+
+  /* Admin add-flight form full width */
+  .admin-flight-form {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* CheckIn form stack */
+  .checkin-form {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .checkin-form button {
+    width: 100% !important;
+  }
+
+  /* Tabs full width on mobile */
+  .tabs { width: 100%; }
+  .tab-btn { flex: 1; padding: 0.6rem 0.75rem; font-size: 0.82rem; text-align: center; }
   
   /* Navbar hamburger behaviour */
   .navbar-toggle {

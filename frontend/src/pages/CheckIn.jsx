@@ -40,7 +40,7 @@ export default function CheckIn() {
         </div>
 
         <div className="card">
-          <form onSubmit={handleFind} style={{ display: 'flex', gap: '0.75rem', alignItems: 'flex-end' }}>
+          <form onSubmit={handleFind} className="checkin-form" style={{ display: 'flex', gap: '0.75rem', alignItems: 'flex-end' }}>
             <div className="form-group" style={{ flex: 1, margin: 0 }}>
               <label>Booking ID</label>
               <input type="number" placeholder="e.g. 12" value={bookingId}
