@@ -1,0 +1,58 @@
+name: Supawake Keep Alive
+
+on:
+  schedule:
+    # Run every 10 minutes to prevent web servers and Supabase from pausing/sleeping
+    - cron: '*/10 * * * *'
+  workflow_dispatch: # Allows triggering manually from GitHub Actions tab
+
+jobs:
+  keep-alive:
+    name: Keep Server & Database Awake
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Web Server
+        run: |
+          TARGET_URL="${{ secrets.SERVER_URL }}"
+          if [ -n "$TARGET_URL" ]; then
+            echo "Pinging Web Server: $TARGET_URL"
+            HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" -L "$TARGET_URL")
+            echo "Response status code: $HTTP_STATUS"
+            if [ "$HTTP_STATUS" -ge 200 ] && [ "$HTTP_STATUS" -lt 400 ]; then
+              echo "✅ Web server is awake!"
+            else
+              echo "⚠️ Web server responded with status: $HTTP_STATUS"
+            fi
+          else
+            echo "ℹ️ SERVER_URL secret is not defined. Skipping web server ping."
+          fi
+
+      - name: Ping Supabase Project
+        run: |
+          SUPABASE_URL="${{ secrets.SUPABASE_URL }}"
+          SUPABASE_KEY="${{ secrets.SUPABASE_ANON_KEY }}"
+          if [ -n "$SUPABASE_URL" ]; then
+            HEALTH_ENDPOINT="${SUPABASE_URL%/}/auth/v1/health"
+            echo "Pinging Supabase endpoint: $HEALTH_ENDPOINT"
+            if [ -n "$SUPABASE_KEY" ]; then
+              HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" -H "apikey: $SUPABASE_KEY" "$HEALTH_ENDPOINT")
+            else
+              HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" "$HEALTH_ENDPOINT")
+            fi
+            echo "Supabase response status code: $HTTP_STATUS"
+            if [ "$HTTP_STATUS" -ge 200 ] && [ "$HTTP_STATUS" -lt 400 ]; then
+              echo "✅ Supabase project is awake!"
+            else
+              echo "⚠️ Supabase responded with status: $HTTP_STATUS"
+            fi
+          else
+            echo "ℹ️ SUPABASE_URL secret is not defined. Skipping Supabase ping."
+          fi
+
+      - name: Check Configuration
+        run: |
+          if [ -z "${{ secrets.SERVER_URL }}" ] && [ -z "${{ secrets.SUPABASE_URL }}" ]; then
+            echo "::error:: Neither SERVER_URL nor SUPABASE_URL secret has been set in repository secrets."
+            echo "Please set SERVER_URL and/or SUPABASE_URL in GitHub Settings -> Secrets and variables -> Actions."
+            exit 1
+          fi
